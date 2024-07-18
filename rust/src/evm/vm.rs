@@ -366,9 +366,10 @@ where
 
                 if size > 32768 {
                     Err(UnsupportedOpError { op }.into())
+                } else if src_off >= self.code.len() {
+                        Err(UnsupportedOpError { op }.into())
                 } else {
                     let mut data: Vec<u8> = vec![0; size];
-
                     let n = std::cmp::min(size, self.code.len() - src_off);
                     data[0..n].copy_from_slice(&self.code[src_off..src_off + n]);
                     self.memory.store(mem_off, data, None);
